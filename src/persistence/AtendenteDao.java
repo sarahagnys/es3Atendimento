@@ -2,14 +2,27 @@ package persistence;
 
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import model.Atendente;
 
 public class AtendenteDao implements IObjDao<Atendente>{
 
+	private SessionFactory sf;
+	
+	public AtendenteDao(SessionFactory sf) {
+		this.sf = sf;
+	}
+
 	@Override
 	public void insere(Atendente at) {
-		// TODO Auto-generated method stub
-		
+		EntityManager entityManager = sf.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		entityManager.persist(at);
+		transaction.commit();		
 	}
 
 	@Override
